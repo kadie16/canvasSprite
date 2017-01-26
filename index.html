@@ -5,22 +5,25 @@
     var img = null;
     var ctx = null;
     var imageReady = false;
-    const ARIEL_W = 62; 
-    const HALF_W = ARIEL_W/2; 
-    const ARIEL_H = 42; 
-    const ARIEL_N = 8;
     const SIMBA_W = 96; 
     const SIMBA_H = 54; 
     const SIMBA_N = 6; 
     const MS_PER_FRAME = 100; 
-    const FRAMES_PER_S = 1000/60; 
-    var xPos = 0; 
-    var yPos = 0;  
+    const FRAMES_PER_S = 1000/60;  
+    var ariel = {
+      speed: 0, 
+      x: 0, 
+      y: 0, 
+      height: 42, 
+      width: 62, 
+      halfWidth: 96/2, 
+      nFrames: 8, 
+    }; 
     function onload() {
       canvas = document.getElementById('spriteCanvas');
-      xPos = canvas.width/2; 
-      yPos = canvas.height/2; 
       ctx = canvas.getContext("2d");
+      ariel.x = canvas.width/2; 
+      ariel.y = canvas.height/2; 
       img = new Image();
       img.src = 'ariel.png';
       img.onload = loaded();
@@ -35,16 +38,16 @@
       var h0 = canvas.height; 
       canvas.width = canvas.parentNode.clientWidth;
       canvas.height = canvas.parentNode.clientHeight;
-      xPos = (canvas.width/w0) * xPos; 
-      yPos = (canvas.height/h0) * yPos; 
+      ariel.x = (canvas.width/w0) * ariel.x; 
+      ariel.y = (canvas.height/h0) * ariel.y; 
       redraw();
     }
     function redraw() {
         ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (imageReady) {
-            ctx.drawImage(img, frame*ARIEL_W, 0, ARIEL_W, ARIEL_H,
-                          xPos - HALF_W, yPos - HALF_W, ARIEL_W, ARIEL_H);
+            ctx.drawImage(img, frame*ariel.width, 0, ariel.width, ariel.height,
+                          ariel.x - ariel.halfWidth, ariel.y - ariel.halfWidth, ariel.width, ariel.height);
         }
     }
     
@@ -56,7 +59,7 @@
         if (dt > MS_PER_FRAME) {
           redraw(); 
           frame++; 
-          if (frame >= ARIEL_N) frame = 0;
+          if (frame >= ariel.nFrames) frame = 0;
           dt = 0; 
         } else 
         {
