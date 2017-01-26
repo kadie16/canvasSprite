@@ -5,13 +5,15 @@
     var img = null;
     var ctx = null;
     var imageReady = false;
-    const SIMBA_W = 96; 
-    const SIMBA_H = 54; 
-    const SIMBA_N = 6; 
+    /* ANIMATION VARIABLES */ 
+    var frame = 0;
+    var tLastUpdate = 0; 
+    var dt = 0; 
     const MS_PER_FRAME = 100; 
     const FRAMES_PER_S = 1000/60;  
+    /* SPRITE VARIABLES */ 
     var ariel = {
-      speed: 0, 
+      speed: 1, 
       x: 0, 
       y: 0, 
       height: 42, 
@@ -19,6 +21,22 @@
       halfWidth: 96/2, 
       nFrames: 8, 
     }; 
+    const SIMBA_W = 96; 
+    const SIMBA_H = 54; 
+    const SIMBA_N = 6; 
+    /* SETTING UP PLAYER INPUT */ 
+    const upKey = 38; 
+    const downKey = 40; 
+    const leftKey = 37; 
+    const rightKey = 39; 
+    var keysDown = {}; 
+    addEventListener("keydown", function(e) {
+      keysDown[e.keyCode] = true; 
+    }, false); 
+    addEventListener("keyup", function(e) {
+      delete keysDown[e.keyCode];  
+    }, false); 
+    /* SCRIPT FUNCTIONS */ 
     function onload() {
       canvas = document.getElementById('spriteCanvas');
       ctx = canvas.getContext("2d");
@@ -50,12 +68,17 @@
                           ariel.x - ariel.halfWidth, ariel.y - ariel.halfWidth, ariel.width, ariel.height);
         }
     }
-    
-    var frame = 0;
-    var tLastUpdate = 0; 
-    var dt = 0; 
+    var update = function(modifier) {
+      if (upKey in keysDown) {
+        ariel.y -= ariel.speed * modifier; 
+      }
+      if (downKey in keysDown) {
+        ariel.y += ariel.speed * modifier; 
+      }
+    }
     function animate() {
         requestAnimationFrame(animate); 
+        update(dt/1000); 
         if (dt > MS_PER_FRAME) {
           redraw(); 
           frame++; 
