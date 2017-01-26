@@ -13,7 +13,7 @@
     const FRAMES_PER_S = 1000/60;  
     /* SPRITE VARIABLES */ 
     var ariel = {
-      speed: 1, 
+      speed: 8, 
       x: 0, 
       y: 0, 
       height: 42, 
@@ -74,6 +74,12 @@
       }
       if (downKey in keysDown) {
         ariel.y += ariel.speed * modifier; 
+      }
+      if (leftKey in keysDown) {
+        ariel.x -= ariel.speed * modifier;
+      }
+      if (rightKey in keysDown) {
+        ariel.x += ariel.speed * modifier; 
       }
     }
     function animate() {
