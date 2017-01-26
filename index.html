@@ -7,8 +7,11 @@
     var imageReady = false;
     const ARIEL_W = 62; 
     const ARIEL_H = 42; 
+    const ARIEL_N = 8;
     const SIMBA_W = 96; 
     const SIMBA_H = 54; 
+    const SIMBA_N = 6; 
+
     function onload() {
       canvas = document.getElementById('gameCanvas');
       ctx = canvas.getContext("2d");
@@ -41,7 +44,7 @@
       console.log('hi');
         redraw();
         frame++;
-        if (frame >= 6) frame = 0;
+        if (frame >= ARIEL_N) frame = 0;
         setTimeout( update, 1000 / 60 );
     }
 
