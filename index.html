@@ -13,7 +13,7 @@
     const FRAMES_PER_S = 1000/60;  
     /* SPRITE VARIABLES */ 
     var ariel = {
-      speed: 8, 
+      speed: 20, 
       x: 0, 
       y: 0, 
       height: 42, 
@@ -61,7 +61,7 @@
       redraw();
     }
     function redraw() {
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (imageReady) {
             ctx.drawImage(img, frame*ariel.width, 0, ariel.width, ariel.height,
