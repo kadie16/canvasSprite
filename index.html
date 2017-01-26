@@ -6,6 +6,7 @@
     var ctx = null;
     var imageReady = false;
     const ARIEL_W = 62; 
+    const HALF_W = ARIEL_W/2; 
     const ARIEL_H = 42; 
     const ARIEL_N = 8;
     const SIMBA_W = 96; 
@@ -13,9 +14,12 @@
     const SIMBA_N = 6; 
     const MS_PER_FRAME = 100; 
     const FRAMES_PER_S = 1000/60; 
-
+    var xPos = 0; 
+    var yPos = 0;  
     function onload() {
       canvas = document.getElementById('spriteCanvas');
+      xPos = canvas.width/2; 
+      yPos = canvas.height/2; 
       ctx = canvas.getContext("2d");
       img = new Image();
       img.src = 'ariel.png';
@@ -27,8 +31,12 @@
         setTimeout(animate, FRAMES_PER_S);
     }
     function resize() {
+      var w0 = canvas.width; 
+      var h0 = canvas.height; 
       canvas.width = canvas.parentNode.clientWidth;
       canvas.height = canvas.parentNode.clientHeight;
+      xPos = (canvas.width/w0) * xPos; 
+      yPos = (canvas.height/h0) * yPos; 
       redraw();
     }
     function redraw() {
@@ -36,7 +44,7 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (imageReady) {
             ctx.drawImage(img, frame*ARIEL_W, 0, ARIEL_W, ARIEL_H,
-                          canvas.width/2 - 48, canvas.height/2 - 48, ARIEL_W, ARIEL_H);
+                          xPos - HALF_W, yPos - HALF_W, ARIEL_W, ARIEL_H);
         }
     }
     
@@ -60,7 +68,6 @@
   </script>
   </head>
 
-  </script>
 <body onresize='onresize()' onload='onload()' style='position: absolute; padding:0; margin:0; height: 100%; width:100%'>
 
 <canvas id="spriteCanvas"></canvas>
