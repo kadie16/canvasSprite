@@ -24,6 +24,8 @@
         halfWidth: 62/2, 
         nFrames: 8, 
         img: null, 
+        leftim: null, 
+        rightim: null, 
         imageReady: true, 
     }
     var stillSprite = {
@@ -54,14 +56,16 @@
       ctx = canvas.getContext("2d");
       ariel.x = canvas.width/2; 
       ariel.y = canvas.height/2; 
-      swimmerSprite.img = new Image();
-      swimmerSprite.img.src = 'ariel.png';
+      swimmerSprite.leftim = new Image();
+      swimmerSprite.leftim.src = 'ariel.png';
+      swimmerSprite.rightim = new Image(); 
+      swimmerSprite.rightim.src = 'arielSwimRight.png'; 
       stillSprite.img = new Image(); 
       stillSprite.img.src = 'arielStill.png'; 
       ocean = ctx.createLinearGradient(0,0,0,500); 
       ocean.addColorStop(0, "#13F6E5"); 
       ocean.addColorStop(1, "#16124D"); 
-      swimmerSprite.img.onload = loaded();
+      stillSprite.img.onload = loaded();
       resize();
     }
     function loaded() {
@@ -103,10 +107,12 @@
       if (leftKey in keysDown) {
         ariel.x -= ariel.speed * modifier;
         ariel.moving = true; 
+        swimmerSprite.img = swimmerSprite.leftim; 
       }
       if (rightKey in keysDown) {
         ariel.x += ariel.speed * modifier;
         ariel.moving = true; 
+        swimmerSprite.img = swimmerSprite.rightim; 
       }
     }
     function animate() {
