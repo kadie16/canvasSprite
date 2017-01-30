@@ -34,6 +34,7 @@
         rightim: null, 
         imageReady: false, 
         ms_per_frame: 100, 
+        currentFrame: 1, 
     }
     var stillSprite = {
         height: 58, 
@@ -43,6 +44,7 @@
         img: null, 
         imageReady: false, 
         ms_per_frame: 160, 
+        currentFrame: 1, 
     }
     var titleSprite = {
       height: 315, 
@@ -50,6 +52,8 @@
       halfWidth: 781/2,
       img: null, 
       imageReady: false,
+      nFrames: 1, 
+      currentFrame: 0, 
     }
 
     var bubblesSprite = {
@@ -59,6 +63,7 @@
       img: null, 
       nFrames: 4,
       imageReady: false,
+      currentFrame: 1, 
     }
     var currentSprite = stillSprite; 
     /* SETTING UP PLAYER INPUT */ 
@@ -134,6 +139,7 @@
         if (ariel.moving) currentSprite = swimmerSprite; 
         else currentSprite = stillSprite; 
         drawSprite(currentSprite, ariel.x, ariel.y); 
+        drawSprite(titleSprite, canvas.width/2, canvas.height/2);
         drawSprite(bubblesSprite, prize.x, prize.y); 
         drawScore(); 
         //ctx.restore();
@@ -151,7 +157,7 @@
 
     function drawSprite(sprite, x, y) {
       if (sprite.imageReady) {
-          ctx.drawImage(sprite.img, frame*sprite.width, 0, sprite.width, sprite.height,
+          ctx.drawImage(sprite.img, sprite.currentFrame*sprite.width, 0, sprite.width, sprite.height,
                           x - sprite.halfWidth, y - sprite.halfWidth, sprite.width, sprite.height);
       }
     }
@@ -191,8 +197,8 @@
         update(dt/1000); 
         if (dt > currentSprite.ms_per_frame) {
           redraw(); 
-          frame++; 
-          if (frame >= currentSprite.nFrames) frame = 0;
+          incrementFrame(bubblesSprite); 
+          incrementFrame(currentSprite); 
           dt = 0; 
         } else 
         {
@@ -201,6 +207,11 @@
         tLastUpdate = Date.now(); 
     }
 
+    function incrementFrame(sprite) {
+      sprite.currentFrame ++; 
+      if (sprite.currentFrame >= sprite.nFrames) sprite.currentFrame = 0; 
+    }
+ 
   </script>
   </head>
 
