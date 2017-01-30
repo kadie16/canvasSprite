@@ -32,7 +32,7 @@
         img: null, 
         leftim: null, 
         rightim: null, 
-        imageReady: true, 
+        imageReady: false, 
         ms_per_frame: 100, 
     }
     var stillSprite = {
@@ -41,7 +41,7 @@
         halfWidth: 18, 
         nFrames: 6, 
         img: null, 
-        imageReady: true, 
+        imageReady: false, 
         ms_per_frame: 160, 
     }
     var titleSprite = {
@@ -49,7 +49,7 @@
       width: 781, 
       halfWidth: 781/2,
       img: null, 
-      imageReady: true,
+      imageReady: false,
     }
 
     var bubblesSprite = {
@@ -58,7 +58,7 @@
       halfWidth: 17/2,
       img: null, 
       nFrames: 4,
-      imageReady: true,
+      imageReady: false,
     }
     var currentSprite = stillSprite; 
     /* SETTING UP PLAYER INPUT */ 
@@ -90,7 +90,7 @@
       ocean = ctx.createLinearGradient(0,0,0,500); 
       ocean.addColorStop(0, "#13F6E5"); 
       ocean.addColorStop(1, "#16124D"); 
-      titleSprite.img.onload = loaded();
+      loaded();
       resize();
       reset(); 
     }
@@ -100,6 +100,7 @@
       swimmerSprite.leftim.src = 'ariel.png';
       swimmerSprite.rightim = new Image(); 
       swimmerSprite.rightim.src = 'arielSwimRight.png';
+      swimmerSprite.rightim.onload = spriteLoaded(swimmerSprite);
       initializeSprite(stillSprite, 'arielStill.png');
       initializeSprite(bubblesSprite, 'bubbles.png'); 
       initializeSprite(titleSprite, 'Little_Mermaid_Title.png'); 
@@ -107,9 +108,12 @@
     function initializeSprite(sprite, imagePath) {
       sprite.img = new Image(); 
       sprite.img.src = imagePath; 
+      sprite.img.onload = spriteLoaded(sprite); 
+    }
+    function spriteLoaded(sprite) {
+      sprite.imageReady = true; 
     }
     function loaded() {
-        //swimmerSprite.imageReady = true; 
         setTimeout(animate, FRAMES_PER_S);
     }
     function resize() {
@@ -131,8 +135,18 @@
         else currentSprite = stillSprite; 
         drawSprite(currentSprite, ariel.x, ariel.y); 
         drawSprite(bubblesSprite, prize.x, prize.y); 
+        drawScore(); 
         //ctx.restore();
 
+    }
+
+    function drawScore() {
+      // Score
+      ctx.fillStyle = "rgb(250, 250, 250)";
+      ctx.font = "24px Georgia";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+      ctx.fillText("Score: " + prizesCaught, 32, 32);
     }
 
     function drawSprite(sprite, x, y) {
