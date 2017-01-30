@@ -26,8 +26,8 @@
     var prizesCaught = 0; 
     var swimmerSprite = {
         height: 42, 
-        width: 62, 
-        halfWidth: 62/2, 
+        width: 63, 
+        halfWidth: 63/2, 
         nFrames: 8, 
         img: null, 
         leftim: null, 
@@ -38,7 +38,7 @@
     }
     var stillSprite = {
         height: 58, 
-        width: 36, 
+        width: 36.0, 
         halfWidth: 18, 
         nFrames: 6, 
         img: null, 
@@ -102,9 +102,9 @@
 
     function initializeAllSprites() {
       swimmerSprite.leftim = new Image();
-      swimmerSprite.leftim.src = 'ariel.png';
+      swimmerSprite.leftim.src = 'arielSwimLft.png';
       swimmerSprite.rightim = new Image(); 
-      swimmerSprite.rightim.src = 'arielSwimRight.png';
+      swimmerSprite.rightim.src = 'arielSwimRt.png';
       swimmerSprite.rightim.onload = spriteLoaded(swimmerSprite);
       initializeSprite(stillSprite, 'arielStill.png');
       initializeSprite(bubblesSprite, 'bubbles.png'); 
@@ -131,23 +131,17 @@
       redraw();
     }
     function redraw() {
-        //ctx.save();
-        //ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //ctx.globalAlpha=1;  
         ctx.fillStyle = ocean;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (ariel.moving) currentSprite = swimmerSprite; 
         else currentSprite = stillSprite; 
         drawSprite(currentSprite, ariel.x, ariel.y); 
-        drawSprite(titleSprite, canvas.width/2, canvas.height/2);
+        drawSprite(titleSprite, canvas.width/2, titleSprite.halfWidth + 50);
         drawSprite(bubblesSprite, prize.x, prize.y); 
         drawScore(); 
-        //ctx.restore();
-
     }
 
     function drawScore() {
-      // Score
       ctx.fillStyle = "rgb(250, 250, 250)";
       ctx.font = "24px Georgia";
       ctx.textAlign = "left";
