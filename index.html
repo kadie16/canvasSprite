@@ -19,6 +19,11 @@
       y: 0, 
       moving_lateral: false,
     }
+    var prize = {
+        x: 0, 
+        y: 0, 
+    }
+    var prizesCaught = 0; 
     var swimmerSprite = {
         height: 42, 
         width: 62, 
@@ -46,6 +51,15 @@
       img: null, 
       imageReady: true,
     }
+
+    var bubblesSprite = {
+      height: 35, 
+      width: 17, 
+      halfWidth: 17/2,
+      img: null, 
+      nFrames: 4,
+      imageReady: true,
+    }
     var currentSprite = stillSprite; 
     /* SETTING UP PLAYER INPUT */ 
     const upKey = 38; 
@@ -61,6 +75,11 @@
         ariel.moving = false; 
       delete keysDown[e.keyCode];  
     }, false); 
+    /* RESET THE GAME */ 
+    var reset = function() {
+      prize.x = 32 + (Math.random() * (canvas.width - 64)); 
+      prize.y = 32 + (Math.random() * (canvas.height - 64)); 
+    }
     /* SCRIPT FUNCTIONS */ 
     function onload() {
       canvas = document.getElementById('spriteCanvas');
@@ -73,6 +92,7 @@
       ocean.addColorStop(1, "#16124D"); 
       titleSprite.img.onload = loaded();
       resize();
+      reset(); 
     }
 
     function initializeAllSprites() {
@@ -81,6 +101,7 @@
       swimmerSprite.rightim = new Image(); 
       swimmerSprite.rightim.src = 'arielSwimRight.png';
       initializeSprite(stillSprite, 'arielStill.png');
+      initializeSprite(bubblesSprite, 'bubbles.png'); 
       initializeSprite(titleSprite, 'Little_Mermaid_Title.png'); 
     }
     function initializeSprite(sprite, imagePath) {
@@ -109,6 +130,7 @@
         if (ariel.moving) currentSprite = swimmerSprite; 
         else currentSprite = stillSprite; 
         drawSprite(currentSprite, ariel.x, ariel.y); 
+        drawSprite(bubblesSprite, prize.x, prize.y); 
         //ctx.restore();
 
     }
@@ -136,7 +158,20 @@
         ariel.moving = true; 
         swimmerSprite.img = swimmerSprite.rightim; 
       }
+      checkForCollision(); 
     }
+
+    function checkForCollision() {
+      if (
+        ariel.x <= (prize.x + 32)
+        && prize.x <= (ariel.x + 32)
+        && ariel.y <= (prize.y + 32)
+        && prize.y <= (ariel.y + 32)
+        ){
+            ++ prizesCaught; 
+            reset(); 
+          }
+    } 
     function animate() {
         requestAnimationFrame(animate); 
         update(dt/1000); 
