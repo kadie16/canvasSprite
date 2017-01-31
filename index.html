@@ -14,7 +14,7 @@
     /* SPRITE VARIABLES */ 
     var ariel = {
       lateral_speed: 20, 
-      longitudinal_speed:5,
+      longitudinal_speed: 8,
       x: 0, 
       y: 0, 
       moving_lateral: false,
@@ -40,13 +40,23 @@
         height: 58, 
         width: 36.0, 
         halfWidth: 18, 
-        nFrames: 6, 
+        nFrames: 8, 
         img: null, 
         imageReady: false, 
         ms_per_frame: 160, 
         currentFrame: 1, 
     }
     var titleSprite = {
+      height: 315, 
+      width: 781, 
+      halfWidth: 781/2,
+      img: null, 
+      imageReady: false,
+      nFrames: 1, 
+      currentFrame: 0, 
+    }
+
+    var topTitleSprite = {
       height: 315, 
       width: 781, 
       halfWidth: 781/2,
@@ -102,13 +112,14 @@
 
     function initializeAllSprites() {
       swimmerSprite.leftim = new Image();
-      swimmerSprite.leftim.src = 'arielSwimLft.png';
+      swimmerSprite.leftim.src = 'arielAssets/arielSwimLft.png';
       swimmerSprite.rightim = new Image(); 
-      swimmerSprite.rightim.src = 'arielSwimRt.png';
+      swimmerSprite.rightim.src = 'arielAssets/arielSwimRt.png';
       swimmerSprite.rightim.onload = spriteLoaded(swimmerSprite);
-      initializeSprite(stillSprite, 'arielStill.png');
-      initializeSprite(bubblesSprite, 'bubbles.png'); 
-      initializeSprite(titleSprite, 'Little_Mermaid_Title.png'); 
+      initializeSprite(stillSprite, 'arielAssets/arielStill.png');
+      initializeSprite(bubblesSprite, 'arielAssets/bubbles.png'); 
+      initializeSprite(titleSprite, 'arielAssets/Little_Mermaid_Title.png'); 
+      initializeSprite(topTitleSprite, 'arielAssets/Little_Mermaid_Title_Top.png');
     }
     function initializeSprite(sprite, imagePath) {
       sprite.img = new Image(); 
@@ -135,14 +146,15 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (ariel.moving) currentSprite = swimmerSprite; 
         else currentSprite = stillSprite; 
-        drawSprite(currentSprite, ariel.x, ariel.y); 
         drawSprite(titleSprite, canvas.width/2, titleSprite.halfWidth + 50);
+        drawSprite(currentSprite, ariel.x, ariel.y); 
+        drawSprite(topTitleSprite, canvas.width/2, titleSprite.halfWidth + 50);
         drawSprite(bubblesSprite, prize.x, prize.y); 
         drawScore(); 
     }
 
     function drawScore() {
-      ctx.fillStyle = "rgb(250, 250, 250)";
+      ctx.fillStyle = "rgb(249, 240, 191)";
       ctx.font = "24px Georgia";
       ctx.textAlign = "left";
       ctx.textBaseline = "top";
